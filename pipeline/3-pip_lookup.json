@@ -1,0 +1,44 @@
+{
+	"name": "3-pip_lookup",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup_exemplo",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ExcelSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_excel_dynamic",
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "raiz",
+							"directory": "excel-com-parametros",
+							"file_name": "exemplo_excel_contoller.xlsx",
+							"sheet_name": "source_to_transient"
+						}
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-02-12T03:50:26Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

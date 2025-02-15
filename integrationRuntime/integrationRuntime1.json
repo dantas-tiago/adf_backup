@@ -1,0 +1,12 @@
+{
+	"name": "integrationRuntime1",
+	"properties": {
+		"type": "SelfHosted",
+		"typeProperties": {
+			"linkedInfo": {
+				"resourceId": "/subscriptions/833e84a8-260c-40b6-b1c0-d992dc6fff1a/resourcegroups/rg-durantetreinamento-prod/providers/Microsoft.DataFactory/factories/adf-durantetreinamento-dev/integrationruntimes/irsh-onpremises",
+				"authorizationType": "Rbac"
+			}
+		}
+	}
+}
