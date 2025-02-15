@@ -177,6 +177,13 @@
 							"delimiter": ","
 						}
 					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "ls_AzureDataLakeStorage",
+							"type": "LinkedServiceReference"
+						},
+						"path": "destino-getmetadata"
+					},
 					"enableLogging": true,
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
