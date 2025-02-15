@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "ds_parquet_dynamic",
+						"referenceName": "ds_csv_dynamic",
 						"type": "DatasetReference",
 						"parameters": {
 							"container": "fonte-getmetadata",
@@ -24,7 +24,8 @@
 								"value": "@trim('')",
 								"type": "Expression"
 							},
-							"file_name": "*"
+							"filename": "*",
+							"delimiter": ","
 						}
 					},
 					"fieldList": [
@@ -39,7 +40,7 @@
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
-						"type": "ParquetReadSettings"
+						"type": "DelimitedTextReadSettings"
 					}
 				}
 			},
