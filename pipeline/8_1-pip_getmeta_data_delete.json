@@ -118,7 +118,7 @@
 											"value": "@item().name",
 											"type": "Expression"
 										},
-										"delimiter": ";"
+										"delimiter": ","
 									}
 								}
 							],
@@ -177,14 +177,7 @@
 							"delimiter": ","
 						}
 					},
-					"logStorageSettings": {
-						"linkedServiceName": {
-							"referenceName": "ls_AzureDataLakeStorage",
-							"type": "LinkedServiceReference"
-						},
-						"path": "destino-getmetadata"
-					},
-					"enableLogging": true,
+					"enableLogging": false,
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"recursive": true,
