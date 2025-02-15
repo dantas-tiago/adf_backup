@@ -29,9 +29,6 @@
 						}
 					},
 					"fieldList": [
-						"size",
-						"exists",
-						"structure",
 						"childItems"
 					],
 					"storeSettings": {
