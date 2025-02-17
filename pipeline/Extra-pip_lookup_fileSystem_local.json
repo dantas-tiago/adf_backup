@@ -1,0 +1,43 @@
+{
+	"name": "Extra-pip_lookup_fileSystem_local",
+	"properties": {
+		"description": "somente para mostrar que é possível acessar pastas locais\n",
+		"activities": [
+			{
+				"name": "Lookup_exemplo",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "FileServerReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_csv_local",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-02-15T03:21:07Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
