@@ -115,7 +115,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"container": {
-														"value": "@item().Container_alternativo",
+														"value": "@item().Container",
 														"type": "Expression"
 													},
 													"directory": {
@@ -183,7 +183,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"container": {
-														"value": "@item().Container",
+														"value": "@item().Container_alternativo",
 														"type": "Expression"
 													},
 													"directory": {
