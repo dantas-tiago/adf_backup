@@ -35,6 +35,18 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/833e84a8-260c-40b6-b1c0-d992dc6fff1a/resourcegroups/rg-durantetreinamento-prod/providers/Microsoft.DataFactory/factories/adf-durantetreinamento-dev/integrationruntimes/irsh-onpremises"
 		},
+		"ls_AzureKeyVault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://akv-treinamento-dev.vault.azure.net/"
+		},
+		"ls_FileServer_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\TESTE"
+		},
+		"ls_FileServer_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "RTIRVR"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -82,6 +94,15 @@
 					},
 					"integrationRuntime1_properties_typeProperties_linkedInfo_resourceId": {
 						"value": "[parameters('integrationRuntime1_properties_typeProperties_linkedInfo_resourceId')]"
+					},
+					"ls_AzureKeyVault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_AzureKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"ls_FileServer_properties_typeProperties_host": {
+						"value": "[parameters('ls_FileServer_properties_typeProperties_host')]"
+					},
+					"ls_FileServer_properties_typeProperties_userId": {
+						"value": "[parameters('ls_FileServer_properties_typeProperties_userId')]"
 					}
 				}
 			},
