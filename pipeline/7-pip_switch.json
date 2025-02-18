@@ -41,7 +41,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup_exemplo",
+						"activity": "Filter1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -50,7 +50,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup_exemplo').output.value",
+						"value": "@activity('Filter1').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -259,6 +259,29 @@
 							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Lookup_exemplo",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup_exemplo').output.value",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@not(empty(item().If))\n",
+						"type": "Expression"
+					}
 				}
 			}
 		],
