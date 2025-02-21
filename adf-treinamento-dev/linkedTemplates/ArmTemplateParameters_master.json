@@ -14,6 +14,9 @@
 		"ls_AzureDataLakeStorage_properties_typeProperties_url": {
 			"value": "https://adlstreinamentodev.dfs.core.windows.net/"
 		},
+		"ls_AzureKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://akv-treinamento-dev.vault.azure.net/"
+		},
 		"ls_AzureSqlDatabase_properties_typeProperties_server": {
 			"value": "srv-treinamento.database.windows.net"
 		},
@@ -23,17 +26,14 @@
 		"ls_AzureSqlDatabase_properties_typeProperties_userName": {
 			"value": "admin_server"
 		},
-		"integrationRuntime1_properties_typeProperties_linkedInfo_resourceId": {
-			"value": "/subscriptions/833e84a8-260c-40b6-b1c0-d992dc6fff1a/resourcegroups/rg-durantetreinamento-prod/providers/Microsoft.DataFactory/factories/adf-durantetreinamento-dev/integrationruntimes/irsh-onpremises"
-		},
-		"ls_AzureKeyVault_properties_typeProperties_baseUrl": {
-			"value": "https://akv-treinamento-dev.vault.azure.net/"
-		},
 		"ls_FileServer_properties_typeProperties_host": {
 			"value": "C:\\TESTE"
 		},
 		"ls_FileServer_properties_typeProperties_userId": {
 			"value": "RTIRVR"
+		},
+		"integrationRuntime1_properties_typeProperties_linkedInfo_resourceId": {
+			"value": "/subscriptions/833e84a8-260c-40b6-b1c0-d992dc6fff1a/resourcegroups/rg-durantetreinamento-prod/providers/Microsoft.DataFactory/factories/adf-durantetreinamento-dev/integrationruntimes/irsh-onpremises"
 		},
 		"containerUri": {
 			"value": ""
