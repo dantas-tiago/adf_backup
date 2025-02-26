@@ -67,7 +67,10 @@
 							"inputs": [
 								{
 									"referenceName": "ds_csv_local",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"nome_arquivo": "@item().name"
+									}
 								}
 							],
 							"outputs": [
@@ -76,7 +79,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"container": "medalhao",
-										"directory": "landing"
+										"directory": "landing",
+										"file_name": {
+											"value": "@replace(item().name, '.csv', '.parquet')\n",
+											"type": "Expression"
+										}
 									}
 								}
 							]
@@ -99,7 +106,10 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "ds_csv_local",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"nome_arquivo": "*"
+						}
 					},
 					"fieldList": [
 						"childItems"
