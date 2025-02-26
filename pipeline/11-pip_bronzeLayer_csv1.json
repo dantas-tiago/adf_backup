@@ -37,7 +37,7 @@
 								"notebookPath": "/Repos/pasta_projeto/dbx_curso/Backend/DE/CamadaMedalhao/Bronze/bronze_dinamico",
 								"baseParameters": {
 									"nome": {
-										"value": "@replace(item().name, '.parquet', '')",
+										"value": "@item().name",
 										"type": "Expression"
 									},
 									"container": "medalhao",
