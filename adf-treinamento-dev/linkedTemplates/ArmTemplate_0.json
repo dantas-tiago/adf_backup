@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ls_AzureSqlDatabase'"
 		},
+		"ls_AzureDatabricks_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ls_AzureDatabricks'"
+		},
 		"ls_AzureDataLakeStorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlstreinamentodev.dfs.core.windows.net/"
@@ -39,9 +43,13 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/833e84a8-260c-40b6-b1c0-d992dc6fff1a/resourcegroups/rg-durantetreinamento-prod/providers/Microsoft.DataFactory/factories/adf-durantetreinamento-dev/integrationruntimes/irsh-onpremises"
 		},
+		"ls_AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0218-024425-gfcrexfe"
+		},
 		"ls_FileServer_properties_typeProperties_host": {
 			"type": "string",
-			"defaultValue": "C:\\TESTE"
+			"defaultValue": "C:\\Users\\RTIRVR\\OneDrive\\Trabalhos\\Elemento\\Engenharia de dados\\Curso databricks\\Files ADLS\\Tabelas medalhão"
 		},
 		"ls_FileServer_properties_typeProperties_userId": {
 			"type": "string",
@@ -159,6 +167,24 @@
 						"resourceId": "[parameters('integrationRuntime1_properties_typeProperties_linkedInfo_resourceId')]",
 						"authorizationType": "Rbac"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_AzureDatabricks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-410796592983929.9.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('ls_AzureDatabricks_accessToken')]"
+					},
+					"existingClusterId": "[parameters('ls_AzureDatabricks_properties_typeProperties_existingClusterId')]"
 				}
 			},
 			"dependsOn": []
@@ -650,6 +676,42 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]",
 				"[concat(variables('factoryId'), '/linkedServices/ls_AzureKeyVault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/9-pip-DBX')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Notebook",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Repos/pasta_projeto/dbx_curso/1-teste_git"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_AzureDatabricks",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_AzureDatabricks')]"
 			]
 		},
 		{
@@ -1250,561 +1312,6 @@
 				"[concat(variables('factoryId'), '/datasets/ds_excel_dynamic')]",
 				"[concat(variables('factoryId'), '/datasets/ds_AzureSqlTable')]",
 				"[concat(variables('factoryId'), '/datasets/ds_csv_dynamic')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/6-pip_if')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Lookup_exemplo",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "ExcelSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								}
-							},
-							"dataset": {
-								"referenceName": "ds_excel_dynamic",
-								"type": "DatasetReference",
-								"parameters": {
-									"container": "raiz",
-									"directory": "excel-com-parametros",
-									"file_name": "exemplo_excel_contoller.xlsx",
-									"sheet_name": "source_to_transient"
-								}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Filter1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Filter1').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "If Condition1",
-									"type": "IfCondition",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@equals(item().If, '3' )",
-											"type": "Expression"
-										},
-										"ifFalseActivities": [
-											{
-												"name": "Copy data FALSE",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "AzureSqlSource",
-														"queryTimeout": "02:00:00",
-														"partitionOption": "None"
-													},
-													"sink": {
-														"type": "ParquetSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														},
-														"formatSettings": {
-															"type": "ParquetWriteSettings"
-														}
-													},
-													"enableStaging": false,
-													"translator": {
-														"type": "TabularTranslator",
-														"typeConversion": true,
-														"typeConversionSettings": {
-															"allowDataTruncation": true,
-															"treatBooleanAsNumber": false
-														}
-													}
-												},
-												"inputs": [
-													{
-														"referenceName": "ds_AzureSqlTable",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "ds_parquet_dynamic",
-														"type": "DatasetReference",
-														"parameters": {
-															"container": {
-																"value": "@item().Container",
-																"type": "Expression"
-															},
-															"directory": {
-																"value": "@item().directory_target",
-																"type": "Expression"
-															},
-															"file_name": {
-																"value": "@item().file_target",
-																"type": "Expression"
-															}
-														}
-													}
-												]
-											}
-										],
-										"ifTrueActivities": [
-											{
-												"name": "Copy data TRUE",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "AzureSqlSource",
-														"queryTimeout": "02:00:00",
-														"partitionOption": "None"
-													},
-													"sink": {
-														"type": "DelimitedTextSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														},
-														"formatSettings": {
-															"type": "DelimitedTextWriteSettings",
-															"quoteAllText": true,
-															"fileExtension": ".txt"
-														}
-													},
-													"enableStaging": false,
-													"translator": {
-														"type": "TabularTranslator",
-														"typeConversion": true,
-														"typeConversionSettings": {
-															"allowDataTruncation": true,
-															"treatBooleanAsNumber": false
-														}
-													}
-												},
-												"inputs": [
-													{
-														"referenceName": "ds_AzureSqlTable",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "ds_csv_dynamic",
-														"type": "DatasetReference",
-														"parameters": {
-															"container": {
-																"value": "@item().Container_alternativo",
-																"type": "Expression"
-															},
-															"directory": {
-																"value": "@item().directory_target",
-																"type": "Expression"
-															},
-															"filename": {
-																"value": "@item().file_target",
-																"type": "Expression"
-															},
-															"delimiter": ";"
-														}
-													}
-												]
-											}
-										]
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Filter1",
-						"type": "Filter",
-						"dependsOn": [
-							{
-								"activity": "Lookup_exemplo",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Lookup_exemplo').output.value",
-								"type": "Expression"
-							},
-							"condition": {
-								"value": "@equals(item().flag_controller,'1' )",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-02-14T14:43:23Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_excel_dynamic')]",
-				"[concat(variables('factoryId'), '/datasets/ds_AzureSqlTable')]",
-				"[concat(variables('factoryId'), '/datasets/ds_parquet_dynamic')]",
-				"[concat(variables('factoryId'), '/datasets/ds_csv_dynamic')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/7-pip_switch')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Lookup_exemplo",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "ExcelSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								}
-							},
-							"dataset": {
-								"referenceName": "ds_excel_dynamic",
-								"type": "DatasetReference",
-								"parameters": {
-									"container": "raiz",
-									"directory": "excel-com-parametros",
-									"file_name": "exemplo_excel_contoller.xlsx",
-									"sheet_name": "source_to_transient"
-								}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Filter1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Filter1').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Bloco Switch",
-									"type": "Switch",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"on": {
-											"value": "@item().If",
-											"type": "Expression"
-										},
-										"cases": [
-											{
-												"value": "1",
-												"activities": [
-													{
-														"name": "Copy data - Case 1",
-														"type": "Copy",
-														"dependsOn": [],
-														"policy": {
-															"timeout": "0.12:00:00",
-															"retry": 0,
-															"retryIntervalInSeconds": 30,
-															"secureOutput": false,
-															"secureInput": false
-														},
-														"userProperties": [],
-														"typeProperties": {
-															"source": {
-																"type": "AzureSqlSource",
-																"queryTimeout": "02:00:00",
-																"partitionOption": "None"
-															},
-															"sink": {
-																"type": "DelimitedTextSink",
-																"storeSettings": {
-																	"type": "AzureBlobFSWriteSettings"
-																},
-																"formatSettings": {
-																	"type": "DelimitedTextWriteSettings",
-																	"quoteAllText": true,
-																	"fileExtension": ".txt"
-																}
-															},
-															"enableStaging": false,
-															"translator": {
-																"type": "TabularTranslator",
-																"typeConversion": true,
-																"typeConversionSettings": {
-																	"allowDataTruncation": true,
-																	"treatBooleanAsNumber": false
-																}
-															}
-														},
-														"inputs": [
-															{
-																"referenceName": "ds_AzureSqlTable",
-																"type": "DatasetReference",
-																"parameters": {}
-															}
-														],
-														"outputs": [
-															{
-																"referenceName": "ds_csv_dynamic",
-																"type": "DatasetReference",
-																"parameters": {
-																	"container": "@item().Container",
-																	"directory": {
-																		"value": "@item().directory_target",
-																		"type": "Expression"
-																	},
-																	"filename": {
-																		"value": "@item().file_target",
-																		"type": "Expression"
-																	},
-																	"delimiter": ";"
-																}
-															}
-														]
-													}
-												]
-											},
-											{
-												"value": "2",
-												"activities": [
-													{
-														"name": "Copy data - Case 2",
-														"type": "Copy",
-														"dependsOn": [],
-														"policy": {
-															"timeout": "0.12:00:00",
-															"retry": 0,
-															"retryIntervalInSeconds": 30,
-															"secureOutput": false,
-															"secureInput": false
-														},
-														"userProperties": [],
-														"typeProperties": {
-															"source": {
-																"type": "AzureSqlSource",
-																"queryTimeout": "02:00:00",
-																"partitionOption": "None"
-															},
-															"sink": {
-																"type": "ParquetSink",
-																"storeSettings": {
-																	"type": "AzureBlobFSWriteSettings"
-																},
-																"formatSettings": {
-																	"type": "ParquetWriteSettings"
-																}
-															},
-															"enableStaging": false,
-															"translator": {
-																"type": "TabularTranslator",
-																"typeConversion": true,
-																"typeConversionSettings": {
-																	"allowDataTruncation": true,
-																	"treatBooleanAsNumber": false
-																}
-															}
-														},
-														"inputs": [
-															{
-																"referenceName": "ds_AzureSqlTable",
-																"type": "DatasetReference",
-																"parameters": {}
-															}
-														],
-														"outputs": [
-															{
-																"referenceName": "ds_parquet_dynamic",
-																"type": "DatasetReference",
-																"parameters": {
-																	"container": "@item().Container_alternativo",
-																	"directory": {
-																		"value": "@item().directory_target",
-																		"type": "Expression"
-																	},
-																	"file_name": {
-																		"value": "@item().file_target",
-																		"type": "Expression"
-																	}
-																}
-															}
-														]
-													}
-												]
-											}
-										],
-										"defaultActivities": [
-											{
-												"name": "Copy Default",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "AzureSqlSource",
-														"queryTimeout": "02:00:00",
-														"partitionOption": "None"
-													},
-													"sink": {
-														"type": "DelimitedTextSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														},
-														"formatSettings": {
-															"type": "DelimitedTextWriteSettings",
-															"quoteAllText": true,
-															"fileExtension": ".txt"
-														}
-													},
-													"enableStaging": false,
-													"translator": {
-														"type": "TabularTranslator",
-														"typeConversion": true,
-														"typeConversionSettings": {
-															"allowDataTruncation": true,
-															"treatBooleanAsNumber": false
-														}
-													}
-												},
-												"inputs": [
-													{
-														"referenceName": "ds_AzureSqlTable",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "ds_csv",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												]
-											}
-										]
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Filter1",
-						"type": "Filter",
-						"dependsOn": [
-							{
-								"activity": "Lookup_exemplo",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Lookup_exemplo').output.value",
-								"type": "Expression"
-							},
-							"condition": {
-								"value": "@not(empty(item().If))\n",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-02-14T15:32:24Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_excel_dynamic')]",
-				"[concat(variables('factoryId'), '/datasets/ds_AzureSqlTable')]",
-				"[concat(variables('factoryId'), '/datasets/ds_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_csv_dynamic')]",
-				"[concat(variables('factoryId'), '/datasets/ds_parquet_dynamic')]"
 			]
 		}
 	]

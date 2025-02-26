@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ls_AzureSqlDatabase'"
 		},
+		"ls_AzureDatabricks_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ls_AzureDatabricks'"
+		},
 		"ls_AzureDataLakeStorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlstreinamentodev.dfs.core.windows.net/"
@@ -37,7 +41,7 @@
 		},
 		"ls_FileServer_properties_typeProperties_host": {
 			"type": "string",
-			"defaultValue": "C:\\TESTE"
+			"defaultValue": "C:\\Users\\RTIRVR\\OneDrive\\Trabalhos\\Elemento\\Engenharia de dados\\Curso databricks\\Files ADLS\\Tabelas medalhão"
 		},
 		"ls_FileServer_properties_typeProperties_userId": {
 			"type": "string",
@@ -46,6 +50,10 @@
 		"integrationRuntime1_properties_typeProperties_linkedInfo_resourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/833e84a8-260c-40b6-b1c0-d992dc6fff1a/resourcegroups/rg-durantetreinamento-prod/providers/Microsoft.DataFactory/factories/adf-durantetreinamento-dev/integrationruntimes/irsh-onpremises"
+		},
+		"ls_AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0218-024425-gfcrexfe"
 		},
 		"containerUri": {
 			"type": "string",
@@ -80,6 +88,9 @@
 					"ls_AzureSqlDatabase_password": {
 						"value": "[parameters('ls_AzureSqlDatabase_password')]"
 					},
+					"ls_AzureDatabricks_accessToken": {
+						"value": "[parameters('ls_AzureDatabricks_accessToken')]"
+					},
 					"ls_AzureDataLakeStorage_properties_typeProperties_url": {
 						"value": "[parameters('ls_AzureDataLakeStorage_properties_typeProperties_url')]"
 					},
@@ -97,6 +108,9 @@
 					},
 					"integrationRuntime1_properties_typeProperties_linkedInfo_resourceId": {
 						"value": "[parameters('integrationRuntime1_properties_typeProperties_linkedInfo_resourceId')]"
+					},
+					"ls_AzureDatabricks_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('ls_AzureDatabricks_properties_typeProperties_existingClusterId')]"
 					},
 					"ls_FileServer_properties_typeProperties_host": {
 						"value": "[parameters('ls_FileServer_properties_typeProperties_host')]"

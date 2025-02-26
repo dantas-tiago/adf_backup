@@ -11,6 +11,9 @@
 		"ls_AzureSqlDatabase_password": {
 			"value": ""
 		},
+		"ls_AzureDatabricks_accessToken": {
+			"value": ""
+		},
 		"ls_AzureDataLakeStorage_properties_typeProperties_url": {
 			"value": "https://adlstreinamentodev.dfs.core.windows.net/"
 		},
@@ -27,13 +30,16 @@
 			"value": "admin_server"
 		},
 		"ls_FileServer_properties_typeProperties_host": {
-			"value": "C:\\TESTE"
+			"value": "C:\\Users\\RTIRVR\\OneDrive\\Trabalhos\\Elemento\\Engenharia de dados\\Curso databricks\\Files ADLS\\Tabelas medalhão"
 		},
 		"ls_FileServer_properties_typeProperties_userId": {
 			"value": "RTIRVR"
 		},
 		"integrationRuntime1_properties_typeProperties_linkedInfo_resourceId": {
 			"value": "/subscriptions/833e84a8-260c-40b6-b1c0-d992dc6fff1a/resourcegroups/rg-durantetreinamento-prod/providers/Microsoft.DataFactory/factories/adf-durantetreinamento-dev/integrationruntimes/irsh-onpremises"
+		},
+		"ls_AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"value": "0218-024425-gfcrexfe"
 		},
 		"containerUri": {
 			"value": ""
