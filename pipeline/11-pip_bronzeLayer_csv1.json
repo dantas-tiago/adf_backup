@@ -1,0 +1,94 @@
+{
+	"name": "11-pip_bronzeLayer_csv1",
+	"properties": {
+		"description": "utilizado para fazer a copia",
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata1').output.childItems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "ingest_bronze",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Repos/pasta_projeto/dbx_curso/Backend/DE/CamadaMedalhao/Bronze/bronze_dinamico",
+								"baseParameters": {
+									"nome": {
+										"value": "@replace(item().name, '.parquet', '')",
+										"type": "Expression"
+									},
+									"container": "medalhao",
+									"diretorio": "landing"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_AzureDatabricks",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Get Metadata1",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_parquet_dynamic",
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "medalhao",
+							"directory": "landing",
+							"file_name": "*"
+						}
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "ParquetReadSettings"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-02-12T03:43:44Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
