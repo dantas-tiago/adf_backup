@@ -30,7 +30,10 @@
 					},
 					"dataset": {
 						"referenceName": "ds_csv_local",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"nome_arquivo": "*"
+						}
 					},
 					"firstRowOnly": true
 				}
