@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "FileServer",
 		"typeProperties": {
-			"host": "C:\\TESTE",
+			"host": "C:\\Users\\RTIRVR\\OneDrive\\Trabalhos\\Elemento\\Engenharia de dados\\Curso databricks\\Files ADLS\\Tabelas medalhão",
 			"userId": "RTIRVR",
 			"password": {
 				"type": "AzureKeyVaultSecret",
