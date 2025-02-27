@@ -8,14 +8,17 @@
 		"ls_AzureDataLakeStorage_accountKey": {
 			"value": ""
 		},
-		"ls_AzureSqlDatabase_password": {
+		"ls_AzureDatabricks_accessToken": {
 			"value": ""
 		},
-		"ls_AzureDatabricks_accessToken": {
+		"ls_AzureSqlDatabase_password": {
 			"value": ""
 		},
 		"ls_AzureDataLakeStorage_properties_typeProperties_url": {
 			"value": "https://adlstreinamentodev.dfs.core.windows.net/"
+		},
+		"ls_AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"value": "0218-024425-gfcrexfe"
 		},
 		"ls_AzureKeyVault_properties_typeProperties_baseUrl": {
 			"value": "https://akv-treinamento-dev.vault.azure.net/"
@@ -37,9 +40,6 @@
 		},
 		"integrationRuntime1_properties_typeProperties_linkedInfo_resourceId": {
 			"value": "/subscriptions/833e84a8-260c-40b6-b1c0-d992dc6fff1a/resourcegroups/rg-durantetreinamento-prod/providers/Microsoft.DataFactory/factories/adf-durantetreinamento-dev/integrationruntimes/irsh-onpremises"
-		},
-		"ls_AzureDatabricks_properties_typeProperties_existingClusterId": {
-			"value": "0218-024425-gfcrexfe"
 		}
 	}
 }
