@@ -1,18 +1,25 @@
 {
-	"name": "pip-final-orchestration_dbx",
+	"name": "14-pip-final-orchestration_dbx",
 	"properties": {
 		"activities": [
 			{
 				"name": "Bronze",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "landing",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "9-pip-DBX",
+						"referenceName": "11-pip_bronzeLayer_csv1",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -35,7 +42,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "9-pip-DBX",
+						"referenceName": "12-pip_silverLayer",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -58,7 +65,23 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "9-pip-DBX",
+						"referenceName": "13-pip_GoldLayer",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "landing",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "10-pip_copydata_pasta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
